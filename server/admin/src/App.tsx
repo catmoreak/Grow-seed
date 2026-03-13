@@ -10,8 +10,17 @@ function App() {
   const [serverStatus, setServerStatus] = useState<ServerStatus | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Login states
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
 
   useEffect(() => {
+    // Only check health if logged in
+    if (!isLoggedIn) return;
+
     const checkServerHealth = async () => {
       try {
         const response = await fetch('/api/health')
@@ -27,13 +36,67 @@ function App() {
     }
 
     checkServerHealth()
-  }, [])
+  }, [isLoggedIn])
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Simple hardcoded login for now
+    if (username === 'admin' && password === 'admin') {
+      setIsLoggedIn(true)
+      setLoginError('')
+    } else {
+      setLoginError('Invalid username or password (use admin/admin)')
+    }
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+    setUsername('')
+    setPassword('')
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="admin-container login-page">
+        <div className="login-card">
+          <h2>Grow Seed Admin</h2>
+          <form onSubmit={handleLogin}>
+            <div className="form-group">
+              <label>Username</label>
+              <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                placeholder="Enter admin"
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                placeholder="Enter admin"
+              />
+            </div>
+            {loginError && <p className="error">{loginError}</p>}
+            <button type="submit" className="login-btn">Login</button>
+          </form>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="admin-container">
       <header className="admin-header">
-        <h1>🌱 Admin Dashboard - Grow Seed</h1>
-        <p>Admin Panel & Backend Control Center</p>
+        <div className="header-content">
+          <div>
+            <h1>🌱 Admin Dashboard - Grow Seed</h1>
+            <p>Admin Panel & Backend Control Center</p>
+          </div>
+          <button onClick={handleLogout} className="logout-btn">Logout</button>
+        </div>
       </header>
 
       <main className="admin-main">

@@ -100,8 +100,25 @@ app.use((err: any, _req: Request, res: Response) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Admin Server running on http://localhost:${PORT}`);
-  console.log(`📊 Admin Dashboard: http://localhost:${PORT}`);
-  console.log(`📡 Main Client API: ${CLIENT_API_URL}`);
-  console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
+  const isDev = process.env.NODE_ENV !== 'production';
+  console.log('');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('Server Started');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  
+  if (isDev) {
+    console.log('[DEVELOPMENT MODE]');
+    console.log('Admin Dashboard:  http://localhost:3001 (Vite Dev Server)');
+    console.log('Backend API:      http://localhost:3000');
+    console.log('Main Website:     http://localhost:5173');
+  } else {
+    console.log('[PRODUCTION MODE]');
+    console.log('Admin Dashboard:  http://localhost:3000 (served by Express)');
+    console.log('Backend API:      http://localhost:3000/api');
+    console.log(`Main Website:     ${CLIENT_API_URL}`);
+  }
+  
+  console.log(`Environment:      ${process.env.NODE_ENV || 'development'}`);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('');
 });
