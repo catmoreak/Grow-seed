@@ -1,0 +1,21 @@
+{
+  "name": "grow-seed",
+  "version": "1.0.0",
+  "description": "Main Website (Client) + Admin Panel Backend",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:client:dev\" \"npm:server:dev\"",
+    "build": "npm run client:build && npm run server:build",
+    "client:dev": "npm --prefix ./client run dev",
+    "client:build": "npm --prefix ./client run build",
+    "server:dev": "npm --prefix ./server run dev",
+    "server:build": "npm --prefix ./server run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Backend API + Admin Dashboard",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run admin:dev\" \"npm run backend:dev\"",
+    "admin:dev": "npm --prefix ./admin run dev",
+    "admin:build": "npm --prefix ./admin run build",
+    "backend:dev": "tsx watch src/index.ts",
+    "backend:build": "tsc",
+    "build": "npm run admin:build && npm run backend:build",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src"
+  },
+  "workspaces": [
+    "admin"
+  ],
+  "dependencies": {
+    "axios": "^1.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^24.10.1",
+    "concurrently": "^9.0.1",
+    "typescript": "~5.9.3",
+    "tsx": "^4.14.0"
+  }
+}
